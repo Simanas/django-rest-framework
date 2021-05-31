@@ -19,6 +19,7 @@ from django.core.validators import (
 )
 from django.forms import FilePathField as DjangoFilePathField
 from django.forms import ImageField as DjangoImageField
+from django.urls import get_script_prefix
 from django.utils import timezone
 from django.utils.dateparse import (
     parse_date, parse_datetime, parse_duration, parse_time
@@ -1561,6 +1562,7 @@ class FileField(Field):
                 url = value.url
             except AttributeError:
                 return None
+            url = get_script_prefix()[:-1] + url
             request = self.context.get('request', None)
             if request is not None:
                 return request.build_absolute_uri(url)
